@@ -5,65 +5,22 @@
     <title>Погода здесь</title>
     <link rel="stylesheet" href="../css/index.css">
 </head>
-<body class="container">
-<header class="section-header-first">
-    <h1 class="header-title">Погода здесь</h1>
-    <button class="header-refresh-button">Обновить геолокацию</button>
-    <div class="empty"></div>
-</header>
-<section class="main-city">
-    <div class="basic-information">
-        <h2 class="city-name main-city-name">Saint Petersburg</h2>
-        <div class="icon-and-temp">
-            <img class="weather-icon main-weather-icon"
-                 src="../resources/sunny.png"
-                 alt="Иконка погоды">
-            <div class="temperature main-temperature">8°C</div>
-        </div>
-    </div>
-    <ul class="detailed-information">
-        <li class="detailed-information-block">
-            <div class="detailed-information-block-key">Ветер</div>
-            <div class="detailed-information-block-value">Moderate breeze, 6.0 m/s, North-northwest</div>
-        </li>
-        <li class="detailed-information-block">
-            <div class="detailed-information-block-key">Облачность</div>
-            <div class="detailed-information-block-value">Broken clouds</div>
-        </li>
-        <li class="detailed-information-block">
-            <div class="detailed-information-block-key">Давление</div>
-            <div class="detailed-information-block-value">1013 hpa</div>
-        </li>
-        <li class="detailed-information-block">
-            <div class="detailed-information-block-key">Влажность</div>
-            <div class="detailed-information-block-value">52%</div>
-        </li>
-        <li class="detailed-information-block">
-            <div class="detailed-information-block-key">Координаты</div>
-            <div class="detailed-information-block-value">[59.88, 30.42]</div>
-        </li>
-    </ul>
-</section>
-<header class="section-header-second">
-    <h1 class="header-title">Избранное</h1>
-    <div class="new-city-form">
-        <input class="new-city-input" type="text" placeholder="Добавить новый город">
-        <button class="circle-button plus-button">
-            <span>+</span>
-        </button>
-    </div>
-</header>
-<section class="favorite-cities">
-    <section class="favorite-city">
-        <div class="favorite-city-basic-information">
-            <h2 class="city-name">Sevastopol</h2>
-            <div class="temperature">5°C</div>
-            <img class="weather-icon"
-                 src="../resources/sunny.png"
-                 alt="Иконка погоды">
-            <button class="circle-button close-button">
-                <span>×</span>
-            </button>
+<body>
+<main class="container">
+    <section class="section-header-first">
+        <h1 class="header-title">Погода здесь</h1>
+        <button class="header-refresh-button">Обновить геолокацию</button>
+        <div class="empty"></div>
+    </section>
+    <section class="main-city">
+        <div class="basic-information">
+            <h2 class="city-name main-city-name">Saint Petersburg</h2>
+            <div class="icon-and-temp">
+                <img class="weather-icon main-weather-icon"
+                     src="../resources/sunny.png"
+                     alt="Иконка погоды">
+                <div class="temperature main-temperature">8°C</div>
+            </div>
         </div>
         <ul class="detailed-information">
             <li class="detailed-information-block">
@@ -88,110 +45,155 @@
             </li>
         </ul>
     </section>
+    <section class="section-header-second">
+        <h2 class="header-title">Избранное</h2>
+        <div class="new-city-form">
+            <input class="new-city-input" type="text" placeholder="Добавить новый город">
+            <button class="circle-button plus-button">
+                <span>+</span>
+            </button>
+        </div>
+    </section>
+    <section class="favorite-cities">
+        <section class="favorite-city">
+            <div class="favorite-city-basic-information">
+                <h3 class="city-name">Sevastopol</h3>
+                <div class="temperature">5°C</div>
+                <img class="weather-icon"
+                     src="../resources/sunny.png"
+                     alt="Иконка погоды">
+                <button class="circle-button close-button">
+                    <span>×</span>
+                </button>
+            </div>
+            <ul class="detailed-information">
+                <li class="detailed-information-block">
+                    <div class="detailed-information-block-key">Ветер</div>
+                    <div class="detailed-information-block-value">Moderate breeze, 6.0 m/s, North-northwest</div>
+                </li>
+                <li class="detailed-information-block">
+                    <div class="detailed-information-block-key">Облачность</div>
+                    <div class="detailed-information-block-value">Broken clouds</div>
+                </li>
+                <li class="detailed-information-block">
+                    <div class="detailed-information-block-key">Давление</div>
+                    <div class="detailed-information-block-value">1013 hpa</div>
+                </li>
+                <li class="detailed-information-block">
+                    <div class="detailed-information-block-key">Влажность</div>
+                    <div class="detailed-information-block-value">52%</div>
+                </li>
+                <li class="detailed-information-block">
+                    <div class="detailed-information-block-key">Координаты</div>
+                    <div class="detailed-information-block-value">[59.88, 30.42]</div>
+                </li>
+            </ul>
+        </section>
 
-    <section class="favorite-city">
-        <div class="favorite-city-basic-information">
-            <h2 class="city-name">Saratov</h2>
-            <div class="temperature">3°C</div>
-            <img class="weather-icon"
-                 src="../resources/sunny.png"
-                 alt="Иконка погоды">
-            <button class="circle-button close-button">
-                <span>×</span>
-            </button>
-        </div>
-        <ul class="detailed-information">
-            <li class="detailed-information-block">
-                <div class="detailed-information-block-key">Ветер</div>
-                <div class="detailed-information-block-value">Moderate breeze, 6.0 m/s, North-northwest</div>
-            </li>
-            <li class="detailed-information-block">
-                <div class="detailed-information-block-key">Облачность</div>
-                <div class="detailed-information-block-value">Broken clouds</div>
-            </li>
-            <li class="detailed-information-block">
-                <div class="detailed-information-block-key">Давление</div>
-                <div class="detailed-information-block-value">1013 hpa</div>
-            </li>
-            <li class="detailed-information-block">
-                <div class="detailed-information-block-key">Влажность</div>
-                <div class="detailed-information-block-value">52%</div>
-            </li>
-            <li class="detailed-information-block">
-                <div class="detailed-information-block-key">Координаты</div>
-                <div class="detailed-information-block-value">[59.88, 30.42]</div>
-            </li>
-        </ul>
-    </section>
-    <section class="favorite-city">
-        <div class="favorite-city-basic-information">
-            <h2 class="city-name">Minsk</h2>
-            <div class="temperature">5°C</div>
-            <img class="weather-icon"
-                 src="../resources/sunny.png"
-                 alt="Иконка погоды">
-            <button class="circle-button close-button">
-                <span>×</span>
-            </button>
-        </div>
-        <ul class="detailed-information">
-            <li class="detailed-information-block">
-                <div class="detailed-information-block-key">Ветер</div>
-                <div class="detailed-information-block-value">Moderate breeze, 6.0 m/s, North-northwest</div>
-            </li>
-            <li class="detailed-information-block">
-                <div class="detailed-information-block-key">Облачность</div>
-                <div class="detailed-information-block-value">Broken clouds</div>
-            </li>
-            <li class="detailed-information-block">
-                <div class="detailed-information-block-key">Давление</div>
-                <div class="detailed-information-block-value">1013 hpa</div>
-            </li>
-            <li class="detailed-information-block">
-                <div class="detailed-information-block-key">Влажность</div>
-                <div class="detailed-information-block-value">52%</div>
-            </li>
-            <li class="detailed-information-block">
-                <div class="detailed-information-block-key">Координаты</div>
-                <div class="detailed-information-block-value">[59.88, 30.42]</div>
-            </li>
-        </ul>
-    </section>
+        <section class="favorite-city">
+            <div class="favorite-city-basic-information">
+                <h3 class="city-name">Saratov</h3>
+                <div class="temperature">3°C</div>
+                <img class="weather-icon"
+                     src="../resources/sunny.png"
+                     alt="Иконка погоды">
+                <button class="circle-button close-button">
+                    <span>×</span>
+                </button>
+            </div>
+            <ul class="detailed-information">
+                <li class="detailed-information-block">
+                    <div class="detailed-information-block-key">Ветер</div>
+                    <div class="detailed-information-block-value">Moderate breeze, 6.0 m/s, North-northwest</div>
+                </li>
+                <li class="detailed-information-block">
+                    <div class="detailed-information-block-key">Облачность</div>
+                    <div class="detailed-information-block-value">Broken clouds</div>
+                </li>
+                <li class="detailed-information-block">
+                    <div class="detailed-information-block-key">Давление</div>
+                    <div class="detailed-information-block-value">1013 hpa</div>
+                </li>
+                <li class="detailed-information-block">
+                    <div class="detailed-information-block-key">Влажность</div>
+                    <div class="detailed-information-block-value">52%</div>
+                </li>
+                <li class="detailed-information-block">
+                    <div class="detailed-information-block-key">Координаты</div>
+                    <div class="detailed-information-block-value">[59.88, 30.42]</div>
+                </li>
+            </ul>
+        </section>
+        <section class="favorite-city">
+            <div class="favorite-city-basic-information">
+                <h3 class="city-name">Minsk</h3>
+                <div class="temperature">5°C</div>
+                <img class="weather-icon"
+                     src="../resources/sunny.png"
+                     alt="Иконка погоды">
+                <button class="circle-button close-button">
+                    <span>×</span>
+                </button>
+            </div>
+            <ul class="detailed-information">
+                <li class="detailed-information-block">
+                    <div class="detailed-information-block-key">Ветер</div>
+                    <div class="detailed-information-block-value">Moderate breeze, 6.0 m/s, North-northwest</div>
+                </li>
+                <li class="detailed-information-block">
+                    <div class="detailed-information-block-key">Облачность</div>
+                    <div class="detailed-information-block-value">Broken clouds</div>
+                </li>
+                <li class="detailed-information-block">
+                    <div class="detailed-information-block-key">Давление</div>
+                    <div class="detailed-information-block-value">1013 hpa</div>
+                </li>
+                <li class="detailed-information-block">
+                    <div class="detailed-information-block-key">Влажность</div>
+                    <div class="detailed-information-block-value">52%</div>
+                </li>
+                <li class="detailed-information-block">
+                    <div class="detailed-information-block-key">Координаты</div>
+                    <div class="detailed-information-block-value">[59.88, 30.42]</div>
+                </li>
+            </ul>
+        </section>
 
-    <section class="favorite-city">
-        <div class="favorite-city-basic-information">
-            <h2 class="city-name">Saint Petersburg</h2>
-            <div class="temperature">3°C</div>
-            <img class="weather-icon"
-                 src="../resources/sunny.png"
-                 alt="Иконка погоды">
-            <button class="circle-button close-button">
-                <span>×</span>
-            </button>
-        </div>
-        <ul class="detailed-information">
-            <li class="detailed-information-block">
-                <div class="detailed-information-block-key">Ветер</div>
-                <div class="detailed-information-block-value">Moderate breeze, 6.0 m/s, North-northwest</div>
-            </li>
-            <li class="detailed-information-block">
-                <div class="detailed-information-block-key">Облачность</div>
-                <div class="detailed-information-block-value">Broken clouds</div>
-            </li>
-            <li class="detailed-information-block">
-                <div class="detailed-information-block-key">Давление</div>
-                <div class="detailed-information-block-value">1013 hpa</div>
-            </li>
-            <li class="detailed-information-block">
-                <div class="detailed-information-block-key">Влажность</div>
-                <div class="detailed-information-block-value">52%</div>
-            </li>
-            <li class="detailed-information-block">
-                <div class="detailed-information-block-key">Координаты</div>
-                <div class="detailed-information-block-value">[59.88, 30.42]</div>
-            </li>
-        </ul>
+        <section class="favorite-city">
+            <div class="favorite-city-basic-information">
+                <h3 class="city-name">Saint Petersburg</h3>
+                <div class="temperature">3°C</div>
+                <img class="weather-icon"
+                     src="../resources/sunny.png"
+                     alt="Иконка погоды">
+                <button class="circle-button close-button">
+                    <span>×</span>
+                </button>
+            </div>
+            <ul class="detailed-information">
+                <li class="detailed-information-block">
+                    <div class="detailed-information-block-key">Ветер</div>
+                    <div class="detailed-information-block-value">Moderate breeze, 6.0 m/s, North-northwest</div>
+                </li>
+                <li class="detailed-information-block">
+                    <div class="detailed-information-block-key">Облачность</div>
+                    <div class="detailed-information-block-value">Broken clouds</div>
+                </li>
+                <li class="detailed-information-block">
+                    <div class="detailed-information-block-key">Давление</div>
+                    <div class="detailed-information-block-value">1013 hpa</div>
+                </li>
+                <li class="detailed-information-block">
+                    <div class="detailed-information-block-key">Влажность</div>
+                    <div class="detailed-information-block-value">52%</div>
+                </li>
+                <li class="detailed-information-block">
+                    <div class="detailed-information-block-key">Координаты</div>
+                    <div class="detailed-information-block-value">[59.88, 30.42]</div>
+                </li>
+            </ul>
+        </section>
     </section>
-</section>
+</main>
 </body>
 </html>
