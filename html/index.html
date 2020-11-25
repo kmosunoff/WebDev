@@ -2,198 +2,100 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Погода здесь</title>
+    <title>Local weather</title>
     <link rel="stylesheet" href="../css/index.css">
+    <script src="../js/index.js"></script>
 </head>
 <body>
 <main class="container">
     <section class="section-header-first">
-        <h1 class="header-title">Погода здесь</h1>
-        <button class="header-refresh-button">Обновить геолокацию</button>
+        <h1 class="header-title">Local weather</h1>
+        <button class="header-refresh-button" onclick="loadLocalWeather()">Refresh geolocation</button>
         <div class="empty"></div>
     </section>
     <section class="main-city">
         <div class="basic-information">
-            <h2 class="city-name main-city-name">Saint Petersburg</h2>
+            <h2 class="city-name main-city-name loading">...loading...</h2>
             <div class="icon-and-temp">
-                <img class="weather-icon main-weather-icon"
-                     src="../resources/sunny.png"
-                     alt="Иконка погоды">
-                <div class="temperature main-temperature">8°C</div>
+                <img class="weather-icon main-weather-icon loading"
+                     src="../resources/dummy.png"
+                     alt="Weather icon">
+                <div class="temperature main-temperature loading">0°C</div>
             </div>
         </div>
         <ul class="detailed-information">
-            <li class="detailed-information-block">
-                <div class="detailed-information-block-key">Ветер</div>
-                <div class="detailed-information-block-value">Moderate breeze, 6.0 m/s, North-northwest</div>
+            <li class="detailed-information-block loading">
+                <div class="detailed-information-block-key">Wind</div>
+                <div class="detailed-information-block-value"></div>
             </li>
-            <li class="detailed-information-block">
-                <div class="detailed-information-block-key">Облачность</div>
-                <div class="detailed-information-block-value">Broken clouds</div>
+            <li class="detailed-information-block loading">
+                <div class="detailed-information-block-key">Clouds</div>
+                <div class="detailed-information-block-value"></div>
             </li>
-            <li class="detailed-information-block">
-                <div class="detailed-information-block-key">Давление</div>
-                <div class="detailed-information-block-value">1013 hpa</div>
+            <li class="detailed-information-block loading">
+                <div class="detailed-information-block-key">Pressure</div>
+                <div class="detailed-information-block-value"></div>
             </li>
-            <li class="detailed-information-block">
-                <div class="detailed-information-block-key">Влажность</div>
-                <div class="detailed-information-block-value">52%</div>
+            <li class="detailed-information-block loading">
+                <div class="detailed-information-block-key">Humidity</div>
+                <div class="detailed-information-block-value"></div>
             </li>
-            <li class="detailed-information-block">
-                <div class="detailed-information-block-key">Координаты</div>
-                <div class="detailed-information-block-value">[59.88, 30.42]</div>
+            <li class="detailed-information-block loading">
+                <div class="detailed-information-block-key">Coordinates</div>
+                <div class="detailed-information-block-value"></div>
             </li>
         </ul>
     </section>
     <section class="section-header-second">
-        <h2 class="header-title">Избранное</h2>
-        <div class="new-city-form">
-            <input class="new-city-input" type="text" placeholder="Добавить новый город">
-            <button class="circle-button plus-button">
+        <h2 class="header-title">Favorites</h2>
+        <form class="new-city-form" onsubmit="addNewFavoriteCity(this.children[0].value)">
+            <input class="new-city-input" type="text" placeholder="Add new city">
+            <button class="circle-button plus-button" type="submit">
                 <span>+</span>
             </button>
-        </div>
+        </form>
     </section>
     <section class="favorite-cities">
-        <section class="favorite-city">
-            <div class="favorite-city-basic-information">
-                <h3 class="city-name">Sevastopol</h3>
-                <div class="temperature">5°C</div>
-                <img class="weather-icon"
-                     src="../resources/sunny.png"
-                     alt="Иконка погоды">
-                <button class="circle-button close-button">
-                    <span>×</span>
-                </button>
-            </div>
-            <ul class="detailed-information">
-                <li class="detailed-information-block">
-                    <div class="detailed-information-block-key">Ветер</div>
-                    <div class="detailed-information-block-value">Moderate breeze, 6.0 m/s, North-northwest</div>
-                </li>
-                <li class="detailed-information-block">
-                    <div class="detailed-information-block-key">Облачность</div>
-                    <div class="detailed-information-block-value">Broken clouds</div>
-                </li>
-                <li class="detailed-information-block">
-                    <div class="detailed-information-block-key">Давление</div>
-                    <div class="detailed-information-block-value">1013 hpa</div>
-                </li>
-                <li class="detailed-information-block">
-                    <div class="detailed-information-block-key">Влажность</div>
-                    <div class="detailed-information-block-value">52%</div>
-                </li>
-                <li class="detailed-information-block">
-                    <div class="detailed-information-block-key">Координаты</div>
-                    <div class="detailed-information-block-value">[59.88, 30.42]</div>
-                </li>
-            </ul>
-        </section>
 
-        <section class="favorite-city">
-            <div class="favorite-city-basic-information">
-                <h3 class="city-name">Saratov</h3>
-                <div class="temperature">3°C</div>
-                <img class="weather-icon"
-                     src="../resources/sunny.png"
-                     alt="Иконка погоды">
-                <button class="circle-button close-button">
-                    <span>×</span>
-                </button>
-            </div>
-            <ul class="detailed-information">
-                <li class="detailed-information-block">
-                    <div class="detailed-information-block-key">Ветер</div>
-                    <div class="detailed-information-block-value">Moderate breeze, 6.0 m/s, North-northwest</div>
-                </li>
-                <li class="detailed-information-block">
-                    <div class="detailed-information-block-key">Облачность</div>
-                    <div class="detailed-information-block-value">Broken clouds</div>
-                </li>
-                <li class="detailed-information-block">
-                    <div class="detailed-information-block-key">Давление</div>
-                    <div class="detailed-information-block-value">1013 hpa</div>
-                </li>
-                <li class="detailed-information-block">
-                    <div class="detailed-information-block-key">Влажность</div>
-                    <div class="detailed-information-block-value">52%</div>
-                </li>
-                <li class="detailed-information-block">
-                    <div class="detailed-information-block-key">Координаты</div>
-                    <div class="detailed-information-block-value">[59.88, 30.42]</div>
-                </li>
-            </ul>
-        </section>
-        <section class="favorite-city">
-            <div class="favorite-city-basic-information">
-                <h3 class="city-name">Minsk</h3>
-                <div class="temperature">5°C</div>
-                <img class="weather-icon"
-                     src="../resources/sunny.png"
-                     alt="Иконка погоды">
-                <button class="circle-button close-button">
-                    <span>×</span>
-                </button>
-            </div>
-            <ul class="detailed-information">
-                <li class="detailed-information-block">
-                    <div class="detailed-information-block-key">Ветер</div>
-                    <div class="detailed-information-block-value">Moderate breeze, 6.0 m/s, North-northwest</div>
-                </li>
-                <li class="detailed-information-block">
-                    <div class="detailed-information-block-key">Облачность</div>
-                    <div class="detailed-information-block-value">Broken clouds</div>
-                </li>
-                <li class="detailed-information-block">
-                    <div class="detailed-information-block-key">Давление</div>
-                    <div class="detailed-information-block-value">1013 hpa</div>
-                </li>
-                <li class="detailed-information-block">
-                    <div class="detailed-information-block-key">Влажность</div>
-                    <div class="detailed-information-block-value">52%</div>
-                </li>
-                <li class="detailed-information-block">
-                    <div class="detailed-information-block-key">Координаты</div>
-                    <div class="detailed-information-block-value">[59.88, 30.42]</div>
-                </li>
-            </ul>
-        </section>
-
-        <section class="favorite-city">
-            <div class="favorite-city-basic-information">
-                <h3 class="city-name">Saint Petersburg</h3>
-                <div class="temperature">3°C</div>
-                <img class="weather-icon"
-                     src="../resources/sunny.png"
-                     alt="Иконка погоды">
-                <button class="circle-button close-button">
-                    <span>×</span>
-                </button>
-            </div>
-            <ul class="detailed-information">
-                <li class="detailed-information-block">
-                    <div class="detailed-information-block-key">Ветер</div>
-                    <div class="detailed-information-block-value">Moderate breeze, 6.0 m/s, North-northwest</div>
-                </li>
-                <li class="detailed-information-block">
-                    <div class="detailed-information-block-key">Облачность</div>
-                    <div class="detailed-information-block-value">Broken clouds</div>
-                </li>
-                <li class="detailed-information-block">
-                    <div class="detailed-information-block-key">Давление</div>
-                    <div class="detailed-information-block-value">1013 hpa</div>
-                </li>
-                <li class="detailed-information-block">
-                    <div class="detailed-information-block-key">Влажность</div>
-                    <div class="detailed-information-block-value">52%</div>
-                </li>
-                <li class="detailed-information-block">
-                    <div class="detailed-information-block-key">Координаты</div>
-                    <div class="detailed-information-block-value">[59.88, 30.42]</div>
-                </li>
-            </ul>
-        </section>
     </section>
 </main>
+
+<template id="template-favorite-city">
+    <section class="favorite-city">
+        <div class="favorite-city-basic-information">
+            <h3 class="city-name loading"></h3>
+            <div class="temperature loading">0°C</div>
+            <img class="weather-icon loading"
+                 src="../resources/dummy.png"
+                 alt="Weather icon">
+            <button class="circle-button close-button loading" onclick="deleteCity(this.parentNode.parentNode.id)">
+                <span>×</span>
+            </button>
+        </div>
+        <ul class="detailed-information">
+            <li class="detailed-information-block loading">
+                <div class="detailed-information-block-key">Wind</div>
+                <div class="detailed-information-block-value"></div>
+            </li>
+            <li class="detailed-information-block loading">
+                <div class="detailed-information-block-key">Clouds</div>
+                <div class="detailed-information-block-value"></div>
+            </li>
+            <li class="detailed-information-block loading">
+                <div class="detailed-information-block-key">Pressure</div>
+                <div class="detailed-information-block-value"></div>
+            </li>
+            <li class="detailed-information-block loading">
+                <div class="detailed-information-block-key">Humidity</div>
+                <div class="detailed-information-block-value"></div>
+            </li>
+            <li class="detailed-information-block loading">
+                <div class="detailed-information-block-key">Coordinates</div>
+                <div class="detailed-information-block-value"></div>
+            </li>
+        </ul>
+    </section>
+</template>
+
 </body>
 </html>
