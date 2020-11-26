@@ -10,7 +10,7 @@
 <main class="container">
     <section class="section-header-first">
         <h1 class="header-title">Local weather</h1>
-        <button class="header-refresh-button" onclick="loadLocalWeather()">Refresh geolocation</button>
+        <button class="header-refresh-button">Refresh geolocation</button>
         <div class="empty"></div>
     </section>
     <section class="main-city">
@@ -48,7 +48,7 @@
     </section>
     <section class="section-header-second">
         <h2 class="header-title">Favorites</h2>
-        <form class="new-city-form" onsubmit="addNewFavoriteCity(this.children[0].value)">
+        <form class="new-city-form">
             <input class="new-city-input" type="text" placeholder="Add new city">
             <button class="circle-button plus-button" type="submit">
                 <span>+</span>
@@ -68,8 +68,8 @@
             <img class="weather-icon loading"
                  src="../resources/dummy.png"
                  alt="Weather icon">
-            <button class="circle-button close-button loading" onclick="deleteCity(this.parentNode.parentNode.id)">
-                <span>×</span>
+            <button class="circle-button close-button loading">
+                ×
             </button>
         </div>
         <ul class="detailed-information">
