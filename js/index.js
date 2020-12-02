@@ -57,7 +57,9 @@ function addFavoriteCity(cityName, isNew) {
     let node = document.importNode(temp.content, true);
     node.querySelector('button').addEventListener('click', removeCity);
     node.querySelector('.city-name').textContent = cityName;
-    const currentId = isNew ? cityName : 'loading';
+    const currentId = isNew
+        ? cityName + 'loading'
+        : cityName;
     node.querySelector('section').id = currentId;
     container.appendChild(node);
     cityNameIsValid(cityName, isNew)
@@ -71,26 +73,25 @@ function addFavoriteCity(cityName, isNew) {
                 getWeatherDataByCityName(correctCityName)
                     .then(value => {
                         fillNodeByIdWithWeather(currentId, value);
+                        if (isNew) {
+                            document.getElementById(currentId).id = correctCityName;
+                        }
                     })
                     .catch(reason => {
-                    container.removeChild(container.querySelector('#' + currentId));
-                    alert('Internet disconnected');
-                })
+                        console.error(reason);
+                        container.removeChild(document.getElementById(currentId));
+                        alert('Internet disconnected');
+                    })
             }
             else {
-                container.removeChild(container.querySelector('#' + currentId));
+                container.removeChild(document.getElementById(currentId));
                 alert('Cannot add city');
             }
         })
         .catch(reason => {
-            container.removeChild(container.querySelector('#' + currentId));
+            container.removeChild(document.getElementById(currentId));
             alert('Internet disconnected');
         });
-}
-
-function preprocessCityName(cityName) {
-    const cityNameNoSpaces = cityName.replace(/\s/g, '');
-    return cityNameNoSpaces.charAt(0).toUpperCase() + cityNameNoSpaces.substring(1).toLowerCase();
 }
 
 function addNewFavoriteCity(event) {
@@ -99,7 +100,6 @@ function addNewFavoriteCity(event) {
     if (cityName === '') {
         return false;
     }
-    cityName = preprocessCityName(cityName);
     event.target.children[0].value = '';
     addFavoriteCity(cityName, true);
     return false;
@@ -109,15 +109,19 @@ async function cityNameIsValid(cityName, isNew) {
     return new Promise((resolve, reject) => {
         if (!isNew) {
             resolve(cityName);
+            return;
         }
         const favoriteCities = JSON.parse(localStorage.getItem(favoriteCitiesKey));
-        if (favoriteCities.includes(cityName)) {
+        if (favoriteCities.some(
+            item => item.toLowerCase() === cityName.toLowerCase()
+        )) {
             resolve(null);
+            return;
         }
         getWeatherDataByCityName(cityName)
             .then(response => {
                 if (response.cod === 200
-                    && !favoriteCities.includes(response['name'])) {
+                    && (!favoriteCities.includes(response['name']))) {
                     resolve(response['name']);
                 }
                 else {
@@ -168,7 +172,6 @@ function getWeatherDataByCityName(cityName) {
 }
 
 function fillNodeWithWeather(node, weather) {
-    node.id = weather['name'];
     node.querySelector('.city-name').textContent = weather['name'];
     node.querySelector('.temperature').textContent = Math.round(weather['main']['temp']) + temperatureUnits;
     const img = node.querySelector('img');
@@ -209,16 +212,17 @@ function fillNodeWithWeather(node, weather) {
 }
 
 function fillNodeByIdWithWeather(id, weather) {
-    const node = document.getElementById('loading' + id) || document.getElementById(id);
+    const node = document.getElementById(id);
     fillNodeWithWeather(node, weather);
 }
 
 function removeCity(event) {
     const cityName = event.path[2].id;
     const list = JSON.parse(localStorage.getItem(favoriteCitiesKey));
-    document.getElementById(cityName).remove();
     list.splice(list.indexOf(cityName), 1);
     localStorage.setItem(favoriteCitiesKey, JSON.stringify(list));
+    let container = document.getElementsByClassName('favorite-cities')[0];
+    container.removeChild(event.path[2]);
 }
 
 function degreesToDirection(degrees){
