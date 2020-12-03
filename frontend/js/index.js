@@ -1,17 +1,12 @@
-const openWeatherMapApiKey = 'b31c7794c25471b7cb20c3a835b69486';
-const favoriteCitiesKey = 'favoriteCities';
 const temperatureUnits = '°C';
 const windSpeedUnits = 'm/s';
 const cloudinessUnits = '%';
 const pressureUnits = 'hPa';
 const humidityUnits = '%';
+const backendUrl = 'http://localhost:3000';
 
 
 (async () => {
-    if (localStorage.getItem(favoriteCitiesKey) === null) {
-        localStorage.setItem(favoriteCitiesKey, JSON.stringify([]));
-    }
-
     window.addEventListener('load', function(event) {
         document.getElementsByClassName('header-refresh-button')[0]
             .addEventListener('click', loadLocalWeather);
@@ -22,7 +17,6 @@ const humidityUnits = '%';
         loadLocalWeather(null);
         addFavoriteCities();
     });
-
 })()
 
 async function loadLocalWeather(event) {
@@ -44,14 +38,15 @@ async function loadLocalWeather(event) {
     });
 }
 
-function addFavoriteCities() {
-    const cities = JSON.parse(localStorage.getItem(favoriteCitiesKey));
+async function addFavoriteCities() {
+    const cities = await getCities();
+    console.log('cities: ', cities);
     for (const city of cities) {
-        addFavoriteCity(city, false);
+        addFavoriteCity(city, false).then();
     }
 }
 
-function addFavoriteCity(cityName, isNew) {
+async function addFavoriteCity(cityName, isNew) {
     let container = document.getElementsByClassName('favorite-cities')[0];
     let temp = document.getElementById('template-favorite-city');
     let node = document.importNode(temp.content, true);
@@ -62,36 +57,55 @@ function addFavoriteCity(cityName, isNew) {
         : cityName;
     node.querySelector('section').id = currentId;
     container.appendChild(node);
-    cityNameIsValid(cityName, isNew)
-        .then(correctCityName => {
-            if (correctCityName) {
-                if (isNew) {
-                    const favoriteCities = JSON.parse(localStorage.getItem(favoriteCitiesKey));
-                    favoriteCities.push(correctCityName);
-                    localStorage.setItem(favoriteCitiesKey, JSON.stringify(favoriteCities));
+
+    let correctCityName = cityName;
+    if (isNew) {
+        addCityToBackend(cityName)
+            .then(value => {
+                if (value) {
+                    correctCityName = value;
                 }
-                getWeatherDataByCityName(correctCityName)
-                    .then(value => {
-                        fillNodeByIdWithWeather(currentId, value);
-                        if (isNew) {
-                            document.getElementById(currentId).id = correctCityName;
-                        }
-                    })
-                    .catch(reason => {
-                        console.error(reason);
-                        container.removeChild(document.getElementById(currentId));
-                        alert('Internet disconnected');
-                    })
-            }
-            else {
+                else {
+                    correctCityName = null;
+                    container.removeChild(document.getElementById(currentId));
+                    alert('Cannot add city');
+                }
+                if (correctCityName) {
+                    getWeatherDataByCityName(correctCityName)
+                        .then(value => {
+                            fillNodeByIdWithWeather(currentId, value);
+                            if (isNew) {
+                                document.getElementById(currentId).id = correctCityName;
+                            }
+                        })
+                        .catch(reason => {
+                            console.error(reason);
+                            container.removeChild(document.getElementById(currentId));
+                            alert('Internet disconnected');
+                        })
+                }
+            })
+            .catch(reason => {
+                correctCityName = null;
+                console.error(reason);
                 container.removeChild(document.getElementById(currentId));
-                alert('Cannot add city');
-            }
-        })
-        .catch(reason => {
-            container.removeChild(document.getElementById(currentId));
-            alert('Internet disconnected');
-        });
+                alert('Internet disconnected');
+            });
+    }
+    else {
+        getWeatherDataByCityName(correctCityName)
+            .then(value => {
+                fillNodeByIdWithWeather(currentId, value);
+                if (isNew) {
+                    document.getElementById(currentId).id = correctCityName;
+                }
+            })
+            .catch(reason => {
+                console.error(reason);
+                container.removeChild(document.getElementById(currentId));
+                alert('Internet disconnected');
+            })
+    }
 }
 
 function addNewFavoriteCity(event) {
@@ -101,35 +115,8 @@ function addNewFavoriteCity(event) {
         return false;
     }
     event.target.children[0].value = '';
-    addFavoriteCity(cityName, true);
+    addFavoriteCity(cityName, true).then();
     return false;
-}
-
-async function cityNameIsValid(cityName, isNew) {
-    return new Promise((resolve, reject) => {
-        if (!isNew) {
-            resolve(cityName);
-            return;
-        }
-        const favoriteCities = JSON.parse(localStorage.getItem(favoriteCitiesKey));
-        if (favoriteCities.some(
-            item => item.toLowerCase() === cityName.toLowerCase()
-        )) {
-            resolve(null);
-            return;
-        }
-        getWeatherDataByCityName(cityName)
-            .then(response => {
-                if (response.cod === 200
-                    && (!favoriteCities.includes(response['name']))) {
-                    resolve(response['name']);
-                }
-                else {
-                    resolve(null);
-                }
-            })
-            .catch(reason => reject(reason));
-    });
 }
 
 async function getPosition() {
@@ -153,22 +140,6 @@ async function getPosition() {
         }
     });
 
-}
-
-function getRequest(url) {
-    url = 'https://api.openweathermap.org/data/2.5/weather?appid=' + openWeatherMapApiKey + '&units=metric' + url;
-    return fetch(url).then(value => value.json());
-}
-
-function getWeatherDataByCoordinates(latitude, longitude) {
-    let url = '&lat=' + latitude
-        + '&lon=' + longitude;
-    return getRequest(url);
-}
-
-function getWeatherDataByCityName(cityName) {
-    let url = '&q=' + cityName
-    return getRequest(url);
 }
 
 function fillNodeWithWeather(node, weather) {
@@ -217,12 +188,69 @@ function fillNodeByIdWithWeather(id, weather) {
 }
 
 function removeCity(event) {
-    const cityName = event.path[2].id;
-    const list = JSON.parse(localStorage.getItem(favoriteCitiesKey));
-    list.splice(list.indexOf(cityName), 1);
-    localStorage.setItem(favoriteCitiesKey, JSON.stringify(list));
-    let container = document.getElementsByClassName('favorite-cities')[0];
-    container.removeChild(event.path[2]);
+    const section = event.path[2];
+    const elements = section.getElementsByClassName('loaded');
+    [...elements].forEach( (element, i, arr) => {
+        element.classList.replace('loaded', 'loading');
+    });
+    const cityName = section.id;
+    removeCityFromBackend(cityName).then(removedCity => {
+        if (removedCity) {
+            let container = document.getElementsByClassName('favorite-cities')[0];
+            container.removeChild(section);
+        }
+        else {
+            const elements = section.getElementsByClassName('loading');
+            [...elements].forEach( (element, i, arr) => {
+                element.classList.replace('loading', 'loaded');
+            });
+        }
+    });
+}
+
+async function getCities() {
+    return (await makeRequest('/favorites')).json();
+}
+
+async function addCityToBackend(city) {
+    const response = await makeRequest(`/favorites?q=${city}`, 'POST');
+    if (response.ok) {
+        return await response.text();
+    }
+    else {
+        return null;
+    }
+}
+
+async function removeCityFromBackend(city) {
+    const response = await makeRequest(`/favorites?q=${city}`, 'DELETE');
+    if (response.ok) {
+        return await response.text();
+    }
+    else {
+        return null;
+    }
+}
+
+function getWeatherDataByCoordinates(latitude, longitude) {
+    const params = {
+        lat: latitude,
+        lon: longitude
+    };
+    const paramsString = '?' + new URLSearchParams(params).toString();
+    return makeRequest('/weather/coordinates' + paramsString).then(value => value.json());
+}
+
+function getWeatherDataByCityName(cityName) {
+    const params = {
+        q: cityName,
+    };
+    const paramsString = '?' + new URLSearchParams(params).toString();
+    return makeRequest('/weather/city' + paramsString).then(value => value.json());
+}
+
+function makeRequest(route, method = 'GET') {
+    return fetch(backendUrl + route, { method: method});
 }
 
 function degreesToDirection(degrees){
