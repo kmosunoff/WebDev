@@ -1,8 +1,8 @@
-const sqlite3 = require('sqlite3').verbose();
-const { OpenWeatherDriver } = require('./OpenWeatherDriver');
+import sqlite3 from 'sqlite3';
+import { OpenWeatherDriver } from './OpenWeatherDriver.js';
 
 
-class SQLiteDriver {
+export class SQLiteDriver {
 
     constructor(dbPath) {
         this.openWeatherDriver = new OpenWeatherDriver();
@@ -13,7 +13,7 @@ class SQLiteDriver {
                 console.error(err.message);
             }
             else {
-                console.log('Connected to the database.');
+                console.log(`Connected to the database ${dbPath}.`);
             }
         });
         this.db.run(`CREATE TABLE IF NOT EXISTS ${this.table} (\n` +
@@ -21,6 +21,10 @@ class SQLiteDriver {
             '    city TEXT\n' +
             '\n' +
             ');');
+    }
+
+    async close() {
+        await this.db.close();
     }
 
     async getCities() {
@@ -132,5 +136,3 @@ class SQLiteDriver {
         });
     }
 }
-
-module.exports.SQLiteDriver=SQLiteDriver;

@@ -1,13 +1,18 @@
-const express = require('express');
-const { OpenWeatherDriver } = require('./OpenWeatherDriver');
-const { SQLiteDriver } = require('./SQLiteDriver');
-const cors = require('cors');
+import express from 'express';
+import { OpenWeatherDriver } from './OpenWeatherDriver.js';
+import { SQLiteDriver } from './SQLiteDriver.js';
+import cors from 'cors';
 
-const app = express();
-app.use(cors());
-const openWeatherDriver = new OpenWeatherDriver();
-const sqLiteDriver = new SQLiteDriver('../resources/cities.db');
+
 const port = process.env.port || 3000;
+const dbPath = process.env.DB_PATH || ":memory:";
+
+export const app = express();
+
+app.use(cors());
+
+export const openWeatherDriver = new OpenWeatherDriver();
+export const sqLiteDriver = new SQLiteDriver(dbPath);
 
 
 app.route('/weather/city')
@@ -84,6 +89,6 @@ app.route('/favorites')
             });
     });
 
-app.listen(port, () => {
-    console.log(`Weather app listening at http://localhost:${port}`);
+export const server = app.listen(port, () => {
+    console.log(`Weather app listening at http://localhost:${port}.`);
 });

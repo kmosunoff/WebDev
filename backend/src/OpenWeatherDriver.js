@@ -1,18 +1,26 @@
-const { URL } = require('url');
-const fetch = require('node-fetch');
+import { URL } from 'url';
+import fetch from 'node-fetch';
 
-class OpenWeatherDriver {
+export class OpenWeatherDriver {
     url = new URL("https://api.openweathermap.org/data/2.5/weather");
     apiKey = process.env.OPEN_WEATHER_API_KEY;
 
-    getByName(name) {
-        let params = {q: name, appid: this.apiKey, units: 'metric'};
-        return this.makeRequest(this.url, params);
+    async getByName(name) {
+        if (name) {
+            let params = {q: name, appid: this.apiKey, units: 'metric'};
+            return this.makeRequest(this.url, params);
+        } else {
+            return null;
+        }
     }
 
-    getByCoordinates(latitude, longitude) {
-        let params = {lat: latitude, lon: longitude, appid: this.apiKey, units: 'metric'};
-        return this.makeRequest(this.url, params);
+    async getByCoordinates(latitude, longitude) {
+        if (latitude && longitude) {
+            let params = {lat: latitude, lon: longitude, appid: this.apiKey, units: 'metric'};
+            return this.makeRequest(this.url, params);
+        } else {
+            return null;
+        }
     }
 
     async makeRequest(url, params) {
@@ -30,5 +38,3 @@ class OpenWeatherDriver {
         }
     }
 }
-
-module.exports.OpenWeatherDriver=OpenWeatherDriver;
